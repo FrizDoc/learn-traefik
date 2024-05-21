@@ -11,18 +11,18 @@ services:
       - traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080
       ## configure http
       - traefik.http.routers.traefik-dashboard-http.entrypoints=http
-      - traefik.http.routers.traefik-dashboard-http.rule=Host(`dash.codewiser.online`)
+      - traefik.http.routers.traefik-dashboard-http.rule=Host(`dash.localhost`)
       ## configure https
-      - traefik.http.routers.traefik-dashboard-https.entrypoints=https
-      - traefik.http.routers.traefik-dashboard-https.tls.certresolver=le
-      - traefik.http.routers.traefik-dashboard-https.rule=Host(`dash.codewiser.online`)
-      - traefik.http.routers.traefik-dashboard-https.service=api@internal
-      - traefik.http.routers.traefik-dashboard-https.tls=true
-      - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
-      - traefik.http.routers.traefik-dashboard-http.middlewares=https-redirect
-      - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
+      # - traefik.http.routers.traefik-dashboard-https.entrypoints=https
+      # - traefik.http.routers.traefik-dashboard-https.tls.certresolver=le
+      # - traefik.http.routers.traefik-dashboard-https.rule=Host(`dash.codewiser.online`)
+      # - traefik.http.routers.traefik-dashboard-https.service=api@internal
+      # - traefik.http.routers.traefik-dashboard-https.tls=true
+      # - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
+      # - traefik.http.routers.traefik-dashboard-http.middlewares=https-redirect
+      # - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
       ## define common network for traefik and apps
-      - traefik.docker.network=towapp
+      - traefik.docker.network=may
     volumes:
       - traefik-public-certificates:/certificates
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -32,19 +32,19 @@ services:
       - --providers.docker.exposedbydefault=false
       - --entrypoints.http.address=:80
       - --entrypoints.https.address=:443 # https
-      - --certificatesresolvers.le.acme.email=imbhaskaran@gmail.com # https
-      - --certificatesresolvers.le.acme.storage=/certificates/acme.json #ssl certificate storage
-      - --certificatesresolvers.le.acme.tlschallenge=true
+      # - --certificatesresolvers.le.acme.email=imbhaskaran@gmail.com # https
+      # - --certificatesresolvers.le.acme.storage=/certificates/acme.json #ssl certificate storage
+      # - --certificatesresolvers.le.acme.tlschallenge=true
       
       - --accesslog
       - --log
       - --api
     networks:
-      - towapp
+      - may
 volumes:
   traefik-public-certificates:
 
 
 networks:
-  towapp:
+  may:
     external: true
